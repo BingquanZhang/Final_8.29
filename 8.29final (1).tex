@@ -1,0 +1,130 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, filecolor=magenta, urlcolor=cyan,}
+\urlstyle{same}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\graphicspath{ {./images/} }
+
+\title{Final }
+
+\author{}
+\date{}
+
+
+\begin{document}
+\maketitle
+$2024-08-26$
+
+\section*{Introduction}
+The data set used in this analysis includes gene expression profiles from patients with varying disease statuses, including COVID-19 and non-COVID-19 conditions. The data set consists of multiple gene expression measurements across different participants. For the primary analysis, the gene of interest is A1BG, A1BG is a gene encoding a plasma glycoprotein that has been implicated in various biological processes, including immune response modulation.
+
+\section*{Methods}
+All analyses were conducted using $R$ version 4.3.0. The following $R$ packages were utilized:
+
+\begin{itemize}
+  \item tidyverse (v2.0.0): For data manipulation and visualization.
+  \item knitr (v1.46): For report generation and integrating R code within LaTeX.
+  \item pheatmap (v1.0.12): For creating heatmaps with clustering of rows and columns.
+\end{itemize}
+
+\noindent For the heatmap visualization, hierarchical clustering was employed to identify patterns in gene expression across participants. The clustering was performed on both rows (genes) and columns (participants) using Euclidean distance as the metric and the complete linkage method. All data are from "Large-Scale Multi-omic Analysis of COVID-19 Severity" {https://pubmed.ncbi.nlm.nih.
+gov/33096026/}).
+
+\section*{Results}
+
+\subsection*{Table 1: Summary statistics}
+
+\begin{center}
+\resizebox{\linewidth}{!}{
+\begin{tabular}{lllrrrrr}
+\hline
+disease\_status & sex & icu\_status & n & fibrinogen.mean & fibrinogen.sd & crp.mean & crp.sd \\
+\hline
+disease state: COVID-19 & female & no & 21 & 490 & 161 & 86 & 73 \\
+disease state: COVID-19 & female & yes & 17 & 505 & 148 & 169 & 121 \\
+disease state: COVID-19 & male & no & 28 & 613 & 200 & 150 & 107 \\
+disease state: COVID-19 & male & yes & 33 & 540 & 223 & 154 & 103 \\
+\begin{tabular}{l}
+disease state: \\
+non-COVID-19 \\
+disease state: \\
+\end{tabular} & female & no & 6 & 363 & 183 & 43 & 43 \\
+\begin{tabular}{l}
+non-COVID-19 \\
+disease state: \\
+\end{tabular} & female & yes & 7 & 403 & 184 & 96 & 80 \\
+\begin{tabular}{l}
+non-COVID-19 \\
+disease state: \\
+\end{tabular} & male & no & 4 & 318 & 84 & 18 & 12 \\
+non-COVID-19 & male & yes & 8 & 284 & 23 & 105 & 88 \\
+\hline
+\end{tabular}}
+\end{center}
+
+\noindent This table shows the mean and standard deviation of fibrinogen and Crp levels in COVID-19 and nonCOVID-19 patients in different genders and ICU status. The data show that the overall fibrinogen and Crp levels of COVID-19 patients are significantly higher than those of non-COVID-19 patients. The mean Crp of male COVID-19 patients admitted to the ICU is 540 , which is significantly higher than the mean of 284 for male non-COVID-19 patients admitted to the ICU. For Crp, the mean of female COVID19 patients admitted to the ICU is 169, while that of female non-COVID-19 patients admitted to the ICU is 96 , with a significant difference. In general, COVID-19 patients, especially those admitted to the ICU, have significantly higher inflammation and coagulation-related indicators than non-COVID-19 patients, regardless of gender.
+
+
+
+\subsection*{Figure 1: Histogram of gene}
+
+
+\begin{center}
+\includegraphics[max width=\textwidth]{images/000018.png}
+
+\end{center}
+
+\noindent This histogram shows the distribution of A1BG gene expression levels. The horizontal axis represents the gene expression value, ranging from 0 to 3 , and the vertical axis represents the corresponding frequency. Most gene expression values are concentrated between 0 and 1 , especially in the area close to 0 , where the frequency is the highest, indicating that the A1BG gene expression level of most samples is low, and the overall distribution is right-skewed.
+\subsection*{Figure 2: Scatter plot of gene + continuous covariate}
+
+\begin{center}
+\includegraphics[max width=\textwidth]{000017.png}
+
+\end{center}
+
+ \noindent The scatter plot suggests that the expression and ferritin are weakly negatively associated.Most of the data points are concentrated in the area where the ferritin concentration is less than $2000 \mathrm{ng} / \mathrm{ml}$ and the gene expression value is less than 1 . There is no obvious upward trend in the gene expression value with the increase of ferritin concentration.
+
+\subsection*{Figure 3: Boxplot of gene stratified by 2 categorical covariates}
+
+\begin{center}
+\includegraphics[max width=\textwidth]{images/000014.png}
+\end{center}
+
+
+\noindent This box plot shows the A1BG gene expression levels of different genders depending on whether they were admitted to the ICU. It suggests that the female has a higher average expression compared with male, and the expression with no icu status is higher compared with patients with icu status.
+
+\subsection*{Figure 4: Heatmap}
+
+\begin{center}
+\includegraphics[width=\textwidth]{116.jpg}
+\end{center}
+
+\noindent The heatmap use 11 genes across all samples, with both rows and columns clustered, provides insights into the expression patterns of these genes. In order to reduce the degree of dispersion, the data were log2 processed.The clustering indicates that genes and samples share similar expression profiles, suggesting potential co-regulation or similar biological conditions. There was a clear grouping pattern in gene expression between COVID-19 patients and non-COVID-19 patients.
+
+\subsection*{Figure 5: Violin Plot}
+
+
+\begin{center}
+\includegraphics[width=\textwidth]{000016.png}
+\end{center}
+
+\noindent This violin plot shows the distribution of C-reactive protein levels between COVID-19 and nonCOVID-19 patients. The plot indicates that Crp levels are generally higher and more widely distributed among COVID-19 patients, with a noticeably higher median compared to non-COVID-19 patients, suggesting significantly elevated inflammation markers in those with COVID-19.
+
+
+\begin{thebibliography}{9}
+	\bibitem{1} tidyverse: Wickham, H., et al. (2019). "Welcome to the Tidyverse." Journal of Open Source Software, $4(43), 1686$. DOI: $10.21105 /$ joss. 01686 .
+	\bibitem{2} knitr: Xie, Y. (2015). "Dynamic Documents with R and knitr." 2nd edition. Chapman; Hall/CRC.
+        \bibitem{3} pheatmap: Kolde, R. (2019). "pheatmap: Pretty Heatmaps." R package version 1.0.12. CRAN.
+
+        \bibitem{4} Overmyer KA, Shishkova E, Miller IJ, et al.(2020). Large-Scale Multi-omic Analysis of COVID-19 Severity. Cell Syst. 2021;12(1):23-40.e7. doi:10.1016/j.cels.
+\end{thebibliography}
+
+\end{document}
